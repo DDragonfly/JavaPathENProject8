@@ -29,6 +29,10 @@ public class RewardsService {
         this.rewardsCentral = rewardCentral;
     }
 
+    public int getAttractionRewardPoints(Attraction attraction, User user) {
+        return rewardsCentral.getAttractionRewardPoints(attraction.attractionId, user.getUserId());
+    }
+
     public void setProximityBuffer(int proximityBuffer) {
         this.proximityBuffer = proximityBuffer;
     }
