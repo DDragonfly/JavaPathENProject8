@@ -61,17 +61,20 @@ public class RewardsService {
         }
 
         List<PendingReward> pending = new ArrayList<>();
+        Set<String> newlyAddedNames = new java.util.HashSet<>();
+
 
         for (VisitedLocation visitedLocation : userLocations) {
             for (Attraction attraction : cachedAttractions) {
-                if (rewardedAttractions.contains(attraction.attractionName)) {
+
+                String name = attraction.attractionName;
+                if (rewardedAttractions.contains(name) || newlyAddedNames.contains(name)) {
                     continue;
                 }
 
                 if (nearAttraction(visitedLocation, attraction)) {
                     pending.add(new PendingReward(visitedLocation, attraction));
-                    rewardedAttractions.add(attraction.attractionName);
-                    break;
+                    newlyAddedNames.add(name);
                 }
             }
         }
@@ -85,8 +88,15 @@ public class RewardsService {
                 .toList();
 
         synchronized (user) {
+            Set<String> finalRewarded = user.getUserRewards().stream()
+                    .map(r -> r.attraction.attractionName)
+                    .collect(Collectors.toSet());
+
             for (UserReward r : rewardsToAdd) {
-                user.addUserReward(r);
+                if (!finalRewarded.contains(r.attraction.attractionName)) {
+                    user.addUserReward(r);
+                    finalRewarded.add(r.attraction.attractionName);
+                }
             }
         }
     }
