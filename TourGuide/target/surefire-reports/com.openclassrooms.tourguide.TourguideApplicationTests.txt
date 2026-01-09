@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.openclassrooms.tourguide.TourguideApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.362 s - in com.openclassrooms.tourguide.TourguideApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.19 s - in com.openclassrooms.tourguide.TourguideApplicationTests
