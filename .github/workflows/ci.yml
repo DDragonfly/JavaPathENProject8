@@ -26,14 +26,21 @@ jobs:
           java-version: "17"
           cache: maven
 
+      - name: Install local dependencies
+        run: |
+          mvn -q install:install-file -Dfile=libs/gpsUtil.jar -DgroupId=gpsUtil -DartifactId=gpsUtil -Dversion=1.0.0 -Dpackaging=jar
+          mvn -q install:install-file -Dfile=libs/RewardCentral.jar -DgroupId=rewardCentral -DartifactId=rewardCentral -Dversion=1.0.0 -Dpackaging=jar
+          mvn -q install:install-file -Dfile=libs/TripPricer.jar -DgroupId=tripPricer -DartifactId=tripPricer -Dversion=1.0.0 -Dpackaging=jar
+        working-directory: TourGuide
+
       - name: Compile
-        run: mvn -B -f TourGuide/pom.xml -DskipTests compile
+        run: mvn -B -DskipTests compile
 
       - name: Test
-        run: mvn -B -f TourGuide/pom.xml test
+        run: mvn -B test
 
       - name: Package (artifact)
-        run: mvn -B -f TourGuide/pom.xml -DskipTests package
+        run: mvn -B -DskipTests package
 
       - name: Upload jar
         uses: actions/upload-artifact@v4
