@@ -26,13 +26,13 @@ jobs:
           cache: maven
 
       - name: Compile
-        run: mvn -B -DskipTests compile
+        run: mvn -B -f TourGuide/pom.xml -DskipTests compile
 
       - name: Test
-        run: mvn -B test
+        run: mvn -B -f TourGuide/pom.xml test
 
       - name: Package (artifact)
-        run: mvn -B -DskipTests package
+        run: mvn -B -f TourGuide/pom.xml -DskipTests package
 
       - name: Upload jar
         uses: actions/upload-artifact@v4
