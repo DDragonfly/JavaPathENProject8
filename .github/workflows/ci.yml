@@ -14,8 +14,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-          - name: Debug tree
-            run: ls -la && echo "----" && ls -la TourGuide
+      - name: Debug tree
+        run: ls -la && echo "----" && ls -la TourGuide
 
 
       - name: Set up JDK 17
