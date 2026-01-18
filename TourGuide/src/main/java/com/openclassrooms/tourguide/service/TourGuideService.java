@@ -7,7 +7,6 @@ import com.openclassrooms.tourguide.user.UserReward;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +32,14 @@ import gpsUtil.location.VisitedLocation;
 import tripPricer.Provider;
 import tripPricer.TripPricer;
 
+/**
+ * Main service coordinating user tracking and reward calculation.
+ *
+ * <p>
+ * Acts as the central orchestration layer between GPS location tracking
+ * and reward computation.
+ * </p>
+ */
 @Service
 public class TourGuideService {
     private Logger logger = LoggerFactory.getLogger(TourGuideService.class);

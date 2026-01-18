@@ -16,6 +16,15 @@ import rewardCentral.RewardCentral;
 import com.openclassrooms.tourguide.user.User;
 import com.openclassrooms.tourguide.user.UserReward;
 
+/**
+ * Service responsible for calculating user rewards based on proximity
+ * to attractions.
+ *
+ * <p>
+ * This service is optimized for high-volume scenarios and supports
+ * parallel execution using an ExecutorService.
+ * </p>
+ */
 @Service
 public class RewardsService {
     private static final double STATUTE_MILES_PER_NAUTICAL_MILE = 1.15077945;
@@ -48,6 +57,21 @@ public class RewardsService {
         proximityBuffer = defaultProximityBuffer;
     }
 
+    /**
+     * Calculates rewards for a single user.
+     *
+     * <p>
+     * The method:
+     * <ul>
+     *   <li>Takes a snapshot of visited locations</li>
+     *   <li>Finds nearby attractions</li>
+     *   <li>Computes reward points outside synchronized blocks</li>
+     *   <li>Adds rewards in a thread-safe manner</li>
+     * </ul>
+     * </p>
+     *
+     * @param user the user for whom rewards are calculated
+     */
     public void calculateRewards(User user) {
         // SNAPSHOT
         List<VisitedLocation> userLocations;
@@ -103,6 +127,16 @@ public class RewardsService {
 
     private record PendingReward(VisitedLocation visitedLocation, Attraction attraction) {}
 
+    /**
+     * Calculates rewards for a list of users in parallel.
+     *
+     * <p>
+     * Uses an ExecutorService to improve performance when processing
+     * a large number of users.
+     * </p>
+     *
+     * @param users list of users to process
+     */
     public void calculateRewardsForUsers(List<User> users) {
         List<CompletableFuture<Void>> futures = users.stream()
                 .map(u -> CompletableFuture.runAsync(() -> calculateRewards(u), rewardsExecutor))
